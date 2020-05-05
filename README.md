@@ -3,23 +3,23 @@
 Step 1: Install EPEL Repository
 First, we need to install the EPEL repository on the server to start the installation of Monit monitoring.
 CentOS/RHEL 7:
-# rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+### rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 CentOS/RHEL 6:
-# rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+### rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 Step 2: Install Monit
 After installing EPEL repository you can easily install it using yum command.
-# yum install monit
+### yum install monit
 Step 3: Start Monit Service
 After the installation process complete, you can execute the following commands to start Monit service.
 For CentOS/RHEL 7
-# systemctl start monit
-# systemctl enable monit
+### systemctl start monit
+### systemctl enable monit
 For CentOS/RHEL 6
-# service monit start
-# chkconfig monit on
+### service monit start
+### chkconfig monit on
 Step 4: Configuration Monit
 For doing Monit configuration you need to access monit configuration file.
-# vim /etc/monitrc
+### nano /etc/monitrc
 In Monit, you can enable web interface using a configuration file. Find the mentioned line and change it as per your requirement.
 set httpd port 2812 and
 use address localhost # only accept connection from localhost
@@ -32,30 +32,30 @@ set httpd port 2812 and
  allow monitadmin:"[email protected]"
 Note:
 You can also provide the access base on groups also.
-allow @monitgroup# allow users of group 'monitgroup' to connect (rw)
+allow @monitgroup # allow users of group 'monitgroup' to connect (rw)
 allow @monitgroups readonly # allow users of group 'monitgroups' to connect readonly
 By default monit check services in every 60 seconds. So you can change it by changing the below parameter.
 set daemon 30
 If you want to store a log to a standalone log file instead, specify the full path to the log file.
 set log syslog
 You can also set your email address to get alerts and reports when events trigger.
-# set mailserver mail.techoism.net port 25
-# set alert [email protected]
+### set mailserver mail.techoism.net port 25
+### set alert [email protected]
 Step 5: Restart Monit
 Before restarting the service verify the monit configuration changes using mention file.
-# monit -t
+### monit -t
 Control file syntax OK
 Restart the monit service.
 For CentOS/RHEL 7
-# systemctl restart monit
+### systemctl restart monit
 For CentOS/RHEL 6
-# service monit restart
+### service monit restart
 Step 6: Verify Monit
 You can verify the monit using mention command.
-# monit
+### monit
 Monit daemon with PID 5165 awakened
 Also, you can verify the services using mention command.
-# monit status
+### monit status
 Monit 5.25.1 uptime: 0m
  System 'srv.techoism.net'
  status OK
