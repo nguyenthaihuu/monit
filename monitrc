@@ -16,7 +16,7 @@
 ##
 ## Start Monit in the background (run as a daemon):
 #
-  set daemon 120            # check services at 2-minute intervals
+set daemon  30              # check services at 30 seconds intervals
 #   with start delay 240    # optional: delay the first check by 4-minutes (by
 #                           # default Monit check immediately after Monit start)
 #
@@ -24,7 +24,7 @@
 ## Set syslog logging. If you want to log to a standalone log file instead,
 ## specify the full path to the log file
 #
-  set log /var/log/monit.log
+set log syslog
 
 #
 #
@@ -38,7 +38,6 @@
 ## default the file is placed in $HOME/.monit.id.
 #
 # set idfile /var/.monit.id
-  set idfile /var/lib/monit/id
 #
 ## Set the location of the Monit state file which saves monitoring states
 ## on each cycle. By default the file is placed in $HOME/.monit.state. If
@@ -46,7 +45,7 @@
 ## the monitoring state across reboots. If it is on temporary filesystem, the
 ## state will be lost on reboot which may be convenient in some situations.
 #
-  set statefile /var/lib/monit/state
+# set statefile /var/.monit.state
 #
 #
 
@@ -90,9 +89,9 @@
 ## by using the SLOTS option (if omitted, the queue is limited by space
 ## available in the back end filesystem).
 #
-  set eventqueue
-      basedir /var/lib/monit/events # set the base directory where events will be stored
-      slots 100                     # optionally limit the queue size
+# set eventqueue
+#     basedir /var/monit  # set the base directory where events will be stored
+#     slots 100           # optionally limit the queue size
 #
 #
 ## Send status and events to M/Monit (for more informations about M/Monit
@@ -155,13 +154,13 @@
 ## commands to a running Monit daemon. See the Monit Wiki if you want to
 ## enable SSL for the HTTP interface.
 #
-# set httpd port 2812 and
-#     use address localhost  # only accept connection from localhost
-#     allow localhost        # allow localhost to connect to the server and
-#     allow admin:monit      # require user 'admin' with password 'monit'
-#     #with ssl {            # enable SSL/TLS and set path to server certificate
-#     #    pemfile: /etc/ssl/certs/monit.pem
-#     #}
+set httpd port 2812 and
+#    use address localhost  # only accept connection from localhost (drop if you use M/Monit)
+#    allow localhost        # allow localhost to connect to the server and
+    allow admin:monit      # require user 'admin' with password 'monit'
+    #with ssl {            # enable SSL/TLS and set path to server certificate
+    #    pemfile: /etc/ssl/certs/monit.pem
+    #}
 
 ###############################################################################
 ## Services
@@ -172,8 +171,8 @@
 ## performed should a test fail.
 #
 #  check system $HOST
-#    if loadavg (1min) > 4 then alert
-#    if loadavg (5min) > 2 then alert
+#    if loadavg (1min) per core > 2 for 5 cycles then alert
+#    if loadavg (5min) per core > 1.5 for 10 cycles then alert
 #    if cpu usage > 95% for 10 cycles then alert
 #    if memory usage > 75% then alert
 #    if swap usage > 25% then alert
@@ -212,7 +211,6 @@
 #    if cpu > 80% for 5 cycles then restart
 #    if totalmem > 200.0 MB for 5 cycles then restart
 #    if children > 250 then restart
-#    if loadavg(5min) greater than 10 for 8 cycles then stop
 #    if disk read > 500 kb/s for 10 cycles then alert
 #    if disk write > 500 kb/s for 10 cycles then alert
 #    if failed host www.tildeslash.com port 80 protocol http and request "/somefile.html" then restart
@@ -303,6 +301,5 @@
 ## It is possible to include additional configuration parts from other files or
 ## directories.
 #
-   include /etc/monit/conf.d/*
-   include /etc/monit/conf-enabled/*
+include /etc/monit.d/*
 #
