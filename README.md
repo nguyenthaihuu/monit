@@ -75,5 +75,11 @@ http://IP-Address:2812
 OR
 http://Hostname:2812
 
-
 Reference: https://mmonit.com/monit/
+
+-------------------------------------------------------------------------
+If use file install_monit.sh:
+### git clone https://github.com/nguyenthaihuu/monit monit
+### cd monit
+### bash install_monit.sh
+
