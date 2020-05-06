@@ -12,9 +12,13 @@ yum -y install monit
 # cp monitrc
 rm -f /etc/monitrc
 cp monitrc /etc/
+chmod 0700 /etc/monitrc
 
-# Or create the file configuration file
+# monit start
 service monit start
 
 # monit on
 chkconfig monit on
+
+# monit status
+service monit status
